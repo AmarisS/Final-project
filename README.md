@@ -5,12 +5,15 @@
 
 # Monte Carlo Simulation Scenario & Purpose:
 
+### Random Variables:
+1. The number of passengers come to the airport during a certain date and time.
+2. Which terminal(international or domestic) each passenger goes to.
+3. The check-in time for each passenger
 ### Hypothesis before running the simulation:
 Type and number of airport terminals:
-international terminal 1
-domestic terminal 1
-
-There are five check-in counter in each terminal.
+international terminal: 1
+domestic terminal: 3
+check-in counter in each terminal: 5
 
 1. The average wait time of the international airport terminal would greater than the average wait time of the domestic airport terminal.
 2. The average wait time during the weekend would be greater than the average wait time during the weekdays.
@@ -21,7 +24,7 @@ For each such variable, how did you decide the range and which probability distr
 Do you think it's a good representation of reality?
 
 ## Instructions on how to use the program:
-After running this program, users would need to input their date and time of when they would arrive the airport, which kind of air flights they are taking. 
+After running this program, users would need to input their date and time of when they would arrive the airport.
 
 ## Sources Used:
 
