@@ -1,11 +1,3 @@
-Create a FORK of this repository to store your code, data, and documentation for the final project. Detailed instructions for this assignment are in the course Moodle site.  The reason I'm asking you to fork this empty repository instead of creating a stand-alone repository is that it will be much easier for me and all students in the course to find all of our projects for code review and for grading. You can even get code review from students in the other section of IS590PR this way.
-
-Even though your fork of this repository shall remain public, you'll still need to explicitly add any students on your team as Collaborators in the Settings. That way you can grant them write privileges.
-
-DELETE the lines from TEMPLATE up.
-
-TEMPLATE for your report:
-
 # Title: 
 
 ## Team Member(s):
@@ -14,14 +6,22 @@ TEMPLATE for your report:
 # Monte Carlo Simulation Scenario & Purpose:
 
 ### Hypothesis before running the simulation:
+Type and number of airport terminals:
+international terminal 1
+domestic terminal 1
 
+There are five check-in counter in each terminal.
+
+1. The average wait time of the international airport terminal would greater than the average wait time of the domestic airport terminal.
+2. The average wait time during the weekend would be greater than the average wait time during the weekdays.
+3. Average wait time of check-in would be between 10 and 15 minutes. 
 ### Simulation's variables of uncertainty
 List and describe your simulation's variables of uncertainty (where you're using pseudo-random number generation). 
 For each such variable, how did you decide the range and which probability distribution to use?  
 Do you think it's a good representation of reality?
 
 ## Instructions on how to use the program:
-
+After running this program, users would need to input their date and time of when they would arrive the airport, which kind of air flights they are taking. 
 
 ## Sources Used:
 
