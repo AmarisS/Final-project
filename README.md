@@ -38,11 +38,10 @@ on domestic terminal on the same day.
   The system would pick up those passengers need extra check-in time randomly, the probability would between 1/500 and 1/10.
   
 ## Instructions on how to use the program:
-    After running this program, users would need to input their date and time period of when they would arrive the airport. And the output of the program is the average wait time for passengers in the security checkpoint in this period.
-    With the output from the simulation, it's able to compare it with the former hypothesis. Is the average wait time of check-in would be between 10 and 15 minutes? Is the average wait time during the weekend would be greater than the average wait time during the weekdays? 
-    Our program aims to be a useful tuturiol for passengers, they can easily check how long they should arrive in advance to pass the airport security check in time.
+After running this program, users would need to input their date and time period of when they would arrive the airport. And the output of the program is the average wait time for passengers in the security checkpoint in this period.
+With the output from the simulation, it's able to compare it with the former hypothesis. Is the average wait time of check-in would be between 10 and 15 minutes? Is the average wait time during the weekend would be greater than the average wait time during the weekdays? 
+Our program aims to be a useful tuturiol for passengers, they can easily check how long they should arrive in advance to pass the airport security check in time.
 
 ## Sources Used:
-Reference Data：http://www.whatsbusy.com/airport/MCO/20171129T020000 
-
-Monte Carlo Simulation：https://en.wikipedia.org/wiki/Monte_Carlo_method                               https://courses.ischool.illinois.edu/pluginfile.php/335371/mod_resource/content/1/MillerRanum%203.4%20Queues%20%20Simulations.pdf
+* Reference Data：http://www.whatsbusy.com/airport/MCO/20171129T020000 
+* Monte Carlo Simulation：https://en.wikipedia.org/wiki/Monte_Carlo_method                               https://courses.ischool.illinois.edu/pluginfile.php/335371/mod_resource/content/1/MillerRanum%203.4%20Queues%20%20Simulations.pdf
