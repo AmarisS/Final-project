@@ -16,16 +16,17 @@ The data this project used to simulate the real-life situation is from Whatsbusy
 * Check-in counter in each terminal: 5
 
 Assumptions:
-①Each passengers passing the security check is independent and identity distributed.
-②The security check counter treat passengers at same speed. (* If time permits, we would add a additional exception situation: if people is regarded as carrying prohibited items, the check counter which deal with this situation will temporarily close.)
-③Each passenger’s average passing time in international terminal is 1 time more than in domestic terminal since international passengers usually carry more luggages and the restriction on them is more strict.
-④The security checkpoint can treat 180 passengers at an hour.
+* Each passengers passing the security check is independent and identity distributed.
+* The security check counter treat passengers at same speed. (* If time permits, we would add a additional exception situation: if people is regarded as carrying prohibited items, the check counter which deal with this situation will temporarily close.)
+* Each passenger’s average passing time in international terminal is 1 time more than in domestic terminal since international passengers usually carry more luggages and the restriction on them is more strict.
+* The security checkpoint can treat 180 passengers at an hour.
 
 Hypothesis:
-① On weekdays in normal week, passenger’s average passing time for security check is 0-10min.
-② On weekends, passenger’s average passing time will increase by 5-10min than in normal week.
-③ In holidays,  passenger’s average passing time would double when compared with time on same day in normal week.
-④ passenger’s average passing time spent on international terminal would double when compared with time
+
+* On weekdays in normal week, passenger’s average passing time for security check is 0-10min.
+* On weekends, passenger’s average passing time will increase by 5-10min than in normal week.
+* In holidays,  passenger’s average passing time would double when compared with time on same day in normal week.
+* Passenger’s average passing time spent on international terminal would double when compared with time
 on domestic terminal on the same day.
 
 ## Simulation's variables of uncertainty
@@ -37,9 +38,9 @@ on domestic terminal on the same day.
   The system would pick up those passengers need extra check-in time randomly, the probability would between 1/500 and 1/10.
   
 ## Instructions on how to use the program:
-After running this program, users would need to input their date and time period of when they would arrive the airport. And the output of the program is the average wait time for passengers in the security checkpoint in this period.
-With the output from the simulation, it's able to compare it with the former hypothesis. Is the average wait time of check-in would be between 10 and 15 minutes? Is the average wait time during the weekend would be greater than the average wait time during the weekdays? 
-Our program aims to be a useful tuturiol for passengers, they can easily check how long they should arrive in advance to pass the airport security check in time.
+    After running this program, users would need to input their date and time period of when they would arrive the airport. And the output of the program is the average wait time for passengers in the security checkpoint in this period.
+    With the output from the simulation, it's able to compare it with the former hypothesis. Is the average wait time of check-in would be between 10 and 15 minutes? Is the average wait time during the weekend would be greater than the average wait time during the weekdays? 
+    Our program aims to be a useful tuturiol for passengers, they can easily check how long they should arrive in advance to pass the airport security check in time.
 
 ## Sources Used:
 Reference Data：http://www.whatsbusy.com/airport/MCO/20171129T020000 
