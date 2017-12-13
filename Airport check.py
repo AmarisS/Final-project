@@ -1,17 +1,8 @@
 import random
 import numpy as np
 import pandas as pd
-import math
-
-#command  = input("Type in the time range and the terminal here please(Dec.20):")
-#if len(command) < 1:
-    #continue
-#commandList = command.split()
-#date = commandList[0]
-#starttime = commandList[1]
-#endtime = commandList[2]
-#terminal = commandList[3]
-
+import datetime
+import calendar
 
 class CheckQueue():
     def __init__(self):
@@ -44,7 +35,8 @@ class CheckQueue():
     def number_of_items(self):
         """
         return the number of items in the queue
-        :return:
+        :return
+        :
         """
         length = len(self.items)
         return length
@@ -54,7 +46,7 @@ def math_machinetime(l, u):
     """
     calculate the machine check time for passengers with carry-on luggage
     k: the number of security check entrance
-    rho: = l/u, the efficiency of one security check entrance.
+    rho: = l/u, the efficiency of one security check entrance. When rho>1, the line grows. Else, the line decreases.
     :param l: the assumed number of passengers that arrive the security check entrance in the unit time.
     :param u: the service rate of each automatic counter
     :return: machine_check_time
@@ -72,7 +64,7 @@ class Passenger:
         """ initialize passengers waiting for security check
         :param time: record the time that passengers get in the security check queue """
         self.in_time = time
-        self.passengers = random.randrange(1, 11)
+        self.passengers = random.randrange(0,2)
         # time of new passenger getting into queue TBD - to be decided
         self.has_luggage = round(np.random.binomial(1, 0.7))
 
@@ -87,7 +79,7 @@ class Passenger:
     def check_luggage(self):
         has_luggage = self.has_luggage
         if has_luggage == 1:
-            return math_machinetime(180, 0.9)
+            return math_machinetime(2, 0.9)
         elif has_luggage == 0:
             return 0
 
@@ -106,14 +98,19 @@ class CheckCounter:
         """:return: whether the current checking counter is busy(have passenger in check) or not """
         return self.current_passenger != None
 
-    def load_passenger(self, next_passenger):
+    def load_passenger(self, next_passenger,second):
         """ load new passenger """
         self.current_passenger = next_passenger
         self.remaining_time = next_passenger.get_passengers()*self.time_per_passenger
+        if len(bus_arrtimes):
+            for j in bus_arrtimes:
+                if second == j:
+                    self.remaining_time += 50*self.time_per_passenger
         # re-calculate the new remaining time
 
     def check_passenger(self):
         """ security check passengers """
+
         if self.is_busy(): # if there is passengers waiting to be checked
             self.remaining_time -= 1
             # the number of waiting passengers minus one after finishing  checking for a passenger
@@ -137,12 +134,12 @@ def simulate(total_time, time_per_passenger):
 
     for second in range(total_time):
 
-        rand_num = random.randrange(1, 101)
+        rand_num = random.randrange(1, 180)
         # TBD: for 5 counters checking 180 passengers per hour, one passenger can be checked in 100 seconds.
         if rand_num == 1:
             new_passenger = Passenger(second)
             wait_line.enqueue(new_passenger)
-            # new passenger get in queue
+            # new passengers get in queue
 
         if (not check_counter.is_busy()) and (not wait_line.isEmpty()):
             # if there is a not busy counter while passengers wait in line.
@@ -151,29 +148,84 @@ def simulate(total_time, time_per_passenger):
             # calculate and record the waiting time
             #print(new_passenger.check_luggage())
             luggage_time.append(new_passenger.check_luggage())
-            check_counter.load_passenger(next_passenger)
+            check_counter.load_passenger(next_passenger,second)
+            # if bus_arrtimes > 0:
 
         check_counter.check_passenger()
 
     average_time = sum(waiting_time)/len(waiting_time)
-    print(sum(luggage_time))
+    print("waitingtime",sum(waiting_time))
+    print("waitinelength",len(waiting_time))
+    print("luggagetime:",sum(luggage_time))
     return average_time
 
 
+def getuserdate():
+    command = input(
+        "Type in the time range and the terminal here please(terminal1 06.00 10.00 Dec.15) or (terminal1 06.00 10.00 Dec.15 2018):")
+    # Dec.20 07.00 09.00 terminal1
+    # command = 'terminal1 08.00 10.00 Dec.15'
+    commandList = command.split()
+    terminal = commandList[0]
+    starttime = commandList[1]
+    endtime = commandList[2]
+    date = commandList[3]
+    if len(commandList) > 4:
+        year = commandList[4]
+    else:
+        year = 2017
+    monthDict = {"Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6, "Jul": 7, "Aug": 8, "Sep": 9, "Oct": 10,
+                 "Nov": 11, "Dec": 12}
+    month, day = date.split('.')
+    for keys in monthDict.keys():
+        if keys == month:
+            month = monthDict[keys]
+    # Get the weekday of the data user input
+    weekday = calendar.day_name[datetime.datetime(int(year), int(month), int(day)).weekday()]
+
+    bus_schedule = pd.read_csv('bus_schedule.csv', sep=',')
+    bus_schedule = bus_schedule.fillna('')  # replace all the nan as ''
+
+    timeList = []
+    bustime = ''
+    indexpos = 0
+    for i in bus_schedule['holiday_date']:
+        if i == date or i == weekday:
+            timeList.append(indexpos)
+        indexpos += 1
+
+    if len(timeList):
+        for i in timeList:
+            bustime += ' '
+            bustime += bus_schedule.loc[i, 'schedule']
+
+    global bus_arrtimes
+    bus_arrtimes = []
+    for i in bustime.split(' '):
+        if i[0:2] == starttime[0:2]:
+            if int(i[3:5]) >= int(starttime[3:5]):
+                bus_arrtimes.append(int(i[3:5])-int(starttime[3:5]))
+        elif i[0:2] == endtime[0:2]:
+            if int(i[3:5]) <= int(endtime[3:5]):
+                bus_arrtimes.append(60*(int(i[0:2]) - int(starttime[0:2])) + int(i[3:5]))
+        elif starttime[0:2] < i[0:2] and i[0:2] < endtime[0:2]:
+            bus_arrtimes.append(60 * (int(i[0:2]) - int(starttime[0:2])) + int(i[3:5]))
+
 def main():
     time_per_passenger = 30
-    # TBD: 100 is just for current test
+    # TBD: 100 is just for
+    # current test
     total_time = 3600
     # TBD： 1 hour is just for current test
     print("****************************")
     for i in range(5):
+        getuserdate()
         average_time = simulate(total_time, time_per_passenger)
         print("The average waiting time for airport security check：%.5f s" % average_time)
         print("****************************")
-
-    actual_passenger = np.random.poisson(180, 1)
-    print(math.ceil(total_time / actual_passenger * 5))
+        actual_passenger = np.random.poisson(180, 1)
+    # print(math.ceil(total_time / actual_passenger * 5))
+    #     print(average_time + math.ceil(total_time / actual_passenger * 5))
 
 if __name__ == "__main__":
     main()
-
