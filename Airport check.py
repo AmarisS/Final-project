@@ -36,15 +36,14 @@ class CheckQueue():
         """
         return the number of items in the queue
         :return
-        :
         """
         length = len(self.items)
         return length
 
 
-def math_machinetime(l, u):
+def math_automatictime(l, u):
     """
-    calculate the machine check time for passengers with carry-on luggage
+    calculate the automatic machine check time for passengers with carry-on luggage
     k: the number of security check entrance
     rho: = l/u, the efficiency of one security check entrance. When rho>1, the line grows. Else, the line decreases.
     :param l: the assumed number of passengers that arrive the security check entrance in the unit time.
@@ -64,7 +63,7 @@ class Passenger:
         """ initialize passengers waiting for security check
         :param time: record the time that passengers get in the security check queue """
         self.in_time = time
-        self.passengers = random.randrange(0,2)
+        self.passengers = random.randrange(0, 6)
         # time of new passenger getting into queue TBD - to be decided
         self.has_luggage = round(np.random.binomial(1, 0.7))
 
@@ -79,7 +78,7 @@ class Passenger:
     def check_luggage(self):
         has_luggage = self.has_luggage
         if has_luggage == 1:
-            return math_machinetime(2, 0.9)
+            return math_automatictime(20, 0.9)
         elif has_luggage == 0:
             return 0
 
@@ -122,7 +121,7 @@ class CheckCounter:
 
 
 def simulate(total_time, time_per_passenger):
-    """ simulate the airport security check
+    """ simulate the airport security check in non_holiday scenario
     :param total_time: total security check duration
     :param time_per_passenger: record checking time for each passengers """
     waiting_time = []
@@ -134,7 +133,7 @@ def simulate(total_time, time_per_passenger):
 
     for second in range(total_time):
 
-        rand_num = random.randrange(1, 180)
+        rand_num = random.randrange(1, 101)
         # TBD: for 5 counters checking 180 passengers per hour, one passenger can be checked in 100 seconds.
         if rand_num == 1:
             new_passenger = Passenger(second)
@@ -146,7 +145,6 @@ def simulate(total_time, time_per_passenger):
             next_passenger = wait_line.dequeue()
             waiting_time.append(new_passenger.wait_time(second))
             # calculate and record the waiting time
-            #print(new_passenger.check_luggage())
             luggage_time.append(new_passenger.check_luggage())
             check_counter.load_passenger(next_passenger,second)
             # if bus_arrtimes > 0:
@@ -154,13 +152,48 @@ def simulate(total_time, time_per_passenger):
         check_counter.check_passenger()
 
     average_time = sum(waiting_time)/len(waiting_time)
-    print("waitingtime",sum(waiting_time))
-    print("waitinelength",len(waiting_time))
-    print("luggagetime:",sum(luggage_time))
-    return average_time
+    total_waittime = average_time + sum(luggage_time)
+    #print("waitingtime",sum(waiting_time))
+    #print("waitinelength",len(waiting_time))
+    #print("luggagetime:",sum(luggage_time))
+    return total_waittime
 
+def simulate_holiday(total_time, time_per_passenger):
+    """ simulate the airport security check in holidays
+       :param total_time: total security check duration
+       :param time_per_passenger: record checking time for each passengers """
+    waiting_time = []
+    luggage_time = []
+
+    check_counter = CheckCounter(time_per_passenger)
+    wait_line = CheckQueue()
+
+    for second in range(total_time):
+
+        rand_num = random.randrange(1, 181)
+        # In holiday scenario, the time one passenger can be checked would be longer -- in 180 seconds.
+        if rand_num == 1:
+            new_passenger = Passenger(second)
+            wait_line.enqueue(new_passenger)
+
+        if (not check_counter.is_busy()) and (not wait_line.isEmpty()):
+            next_passenger = wait_line.dequeue()
+            waiting_time.append(new_passenger.wait_time(second))
+            # calculate and record the waiting time
+            luggage_time.append(new_passenger.check_luggage())
+            check_counter.load_passenger(next_passenger, second)
+
+        check_counter.check_passenger()
+
+    average_time = sum(waiting_time) / len(waiting_time)
+    total_waittime = average_time + sum(luggage_time)
+    return total_waittime
 
 def getuserdate():
+    """
+
+    :return:
+    """
     command = input(
         "Type in the time range and the terminal here please(terminal1 06.00 10.00 Dec.15) or (terminal1 06.00 10.00 Dec.15 2018):")
     # Dec.20 07.00 09.00 terminal1
@@ -218,12 +251,21 @@ def main():
     total_time = 3600
     # TBD： 1 hour is just for current test
     print("****************************")
-    for i in range(5):
-        getuserdate()
-        average_time = simulate(total_time, time_per_passenger)
-        print("The average waiting time for airport security check：%.5f s" % average_time)
+    input_date = getuserdate()
+    print(input_date)
+    waittime_list = []
+    # record the waittime list for several times simulation
+    for i in range(8):
+        if (input_date == 'Dec 25'):
+            total_waittime = simulate_holiday(total_time,time_per_passenger)
+        else:
+            total_waittime = simulate(total_time, time_per_passenger)
+        waittime_list.append(total_waittime)
         print("****************************")
-        actual_passenger = np.random.poisson(180, 1)
+        print("The average waiting time for airport security check：%.2f s" % total_waittime)
+        #actual_passenger = np.random.poisson(180, 1)
+    print("****************************")
+    print("The waiting time is %.2f s" % min(waittime_list), "to %.2f s" % max(waittime_list))
     # print(math.ceil(total_time / actual_passenger * 5))
     #     print(average_time + math.ceil(total_time / actual_passenger * 5))
 
