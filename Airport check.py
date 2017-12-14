@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import datetime
 import calendar
+import sys
 
 class CheckQueue():
     def __init__(self):
@@ -162,14 +163,16 @@ def getuserdate()-> str:
     :return: return the user input date
     """
     command = input(
-        "Type in the time range here please(06.00 10.00 Dec.15) or (06.00 10.00 Dec.15 2018):")
+        "Enter the estimated time range (06.00 10.00 Dec.15) or (06.00 10.00 Dec.15 2018):")
     # Dec.20 07.00 09.00 terminal1
     # command = 'terminal1 08.00 10.00 Dec.15'
     commandList = command.split()
+    if len(commandList) < 3 or len(commandList) > 4:
+        sys.exit(0)
     starttime = commandList[0]
     endtime = commandList[1]
     date = commandList[2]
-    if len(commandList) > 4:
+    if len(commandList) == 4:
         year = commandList[3]
     else:
         year = 2017
@@ -218,25 +221,32 @@ def main():
     # current test
     total_time = 3600
     # TBD： 1 hour is just for current test
-    print("****************************")
-    input_date = getuserdate()
-    waittime_list = []
-    christmas_period = {1:"Dec.23",2:"Dec.24",3:"Dec.25",4:"Dec.26",5:"Dec.27"}
-    # record the waittime list for several times simulation
-    for i in range(8):
-        for value in christmas_period.values():
-            if input_date == value:
-                total_waittime = simulate(total_time,time_per_passenger,200)
-            else:
-                total_waittime = simulate(total_time, time_per_passenger)
-        waittime_list.append(total_waittime)
+    while True:
         print("****************************")
-        print("The average waiting time for airport security check：%.2f s" % total_waittime)
-        #actual_passenger = np.random.poisson(180, 1)
-    print("****************************")
-    print("The waiting time is %.2f s" % min(waittime_list), "to %.2f s" % max(waittime_list))
-    # print(math.ceil(total_time / actual_passenger * 5))
-    #     print(average_time + math.ceil(total_time / actual_passenger * 5))
-
+        input_date = getuserdate()
+        waittime_list = []
+        christmas_period = {1:"Dec.23",2:"Dec.24",3:"Dec.25",4:"Dec.26",5:"Dec.27"}
+        # record the waittime list for several times simulation
+        for i in range(20):
+            for value in christmas_period.values():
+                if input_date == value:
+                    total_waittime = simulate(total_time,time_per_passenger,200)
+                else:
+                    total_waittime = simulate(total_time, time_per_passenger)
+            waittime_list.append(total_waittime)
+            print("****************************")
+            print("The average waiting time for airport security check：%.2f s" % total_waittime)
+            #actual_passenger = np.random.poisson(180, 1)
+        print("****************************")
+        print("The waiting time is %.2f s" % min(waittime_list), "to %.2f s" % max(waittime_list))
+        command = input("Do you wanna quit? Y/N: ")
+        if command == "Y" or command == "y":
+            print("Bye!")
+            break
+        elif command == "N" or command == "n":
+            continue
+        else:
+            print("Wrong input! Try again:")
+            continue
 if __name__ == "__main__":
     main()
