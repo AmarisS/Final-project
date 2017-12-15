@@ -41,6 +41,10 @@ Our program aims to be a useful tuturiol for passengers, they can easily check h
 ## Conclusions:
 We have tested average waiting time on weekdays, on Friday, and during Christmas holiday(from Dec.23 to Dec.27), and usually the time range would fall between 300s to 800s, which is between 5 minutes to 12 minutes. On holiday, the time range with usually fall between 600s and 1800s, which is between 10 minutes and 30 minutes. The results quite approves the hypothesis.
 
+# Code Review:
+After achieving all the functions as intended at the first stage. We review the comments and check our code with 
+‘Factors in Code Quality and Code Reviews’. The version control of our project is all down by Github so that we would not have any conflicts. More docstrings have been added and few in-line comments have been modified in the code review phrase. The coverage and the reusability are also been taken into consideration.
+
 ## How to run the program:
 After running this program, please input the date and time in the form of 06.00 10.00 Dec.15 2018 or 06.00 10.00 Dec.15, and enter. If you do not input the year, then the system would use the default year:2017. 20 results of estimated waiting time, the minimum and maximum values of those 20 results, and a scatter plot would be shown on the screen. Then you would need to click the close button of that plot and input "y/n" to decide whether to continue entering date and time of arrival. 
 ## Sources Used:
