@@ -235,10 +235,8 @@ def getuserdate()-> str:
     """ get the user planned date and time period of arriving the airport, which may or may not include the year.
     :return: return the user input date
     """
-    command = input(
-        "Enter the estimated time range (06.00 10.00 Dec.15) or (06.00 10.00 Dec.15 2018):")
-    # Dec.20 07.00 09.00 terminal1
-    # command = 'terminal1 08.00 10.00 Dec.15'
+    print("Welcome to O'hare airport!")
+    command = input("Please enter your the estimated time period of arrival like (06.00 10.00 Dec.15) or (06.00 10.00 Dec.15 2018):")
     commandList = command.split()
     if len(commandList) < 3 or len(commandList) > 4:
         sys.exit(0)
