@@ -4,7 +4,7 @@ import pandas as pd
 import datetime
 import calendar
 import sys
-
+import matplotlib.pyplot as plt
 
 class CheckQueue():
     def __init__(self):
@@ -109,7 +109,7 @@ class Passenger:
         """
         has_luggage = self.has_luggage
         if has_luggage == 1:
-            return math_automatictime(15, 0.8)
+            return math_automatictime(5, 0.8)
         elif has_luggage == 0:
             return 0
 
@@ -300,18 +300,34 @@ def main():
         input_date = getuserdate()
         waittime_list = []
         christmas_period = {1: "Dec.23", 2 :"Dec.24", 3 :"Dec.25", 4 :"Dec.26", 5: "Dec.27"}
-        # record the waittime list for several times simulation
-        for i in range(20):
-            for value in christmas_period.values():
-                if input_date == value:
-                    total_waittime = holiday_simulate(total_time, time_per_passenger)
-                else:
-                    total_waittime = simulate(total_time, time_per_passenger)
-            waittime_list.append(total_waittime)
-            print("****************************")
-            print("The average waiting time for airport security check：%.2f s" % total_waittime)
+        label = 0
+        times = []
+        for value in christmas_period.values():
+            if input_date == value:
+                label = 1
+        if label == 1:
+            for i in range(20):
+                total_waittime = holiday_simulate(total_time, time_per_passenger)
+                waittime_list.append(total_waittime)
+                times.append(i)
+                print("****************************")
+                print("The average waiting time for airport security check：%.2f s" % total_waittime)
+        else:
+            for i in range(20):
+                total_waittime = simulate(total_time, time_per_passenger)
+                waittime_list.append(total_waittime)
+                times.append(i)
+                print("****************************")
+                print("The average waiting time for airport security check：%.2f s" % total_waittime)
         print("****************************")
         print("The waiting time is %.2f s" % min(waittime_list), "to %.2f s" % max(waittime_list))
+        plt.ylim(0, 1500)
+        plt.xlabel('Times')
+        plt.ylabel('Average wait time(s)')
+        plt.title('20 times average wait time')
+        plt.scatter(times, waittime_list, alpha=0.6)
+
+        plt.show()
         command = input("Do you wanna quit? Y/N: ")
         if command == "Y" or command == "y":
             print("Bye!")
@@ -324,3 +340,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
