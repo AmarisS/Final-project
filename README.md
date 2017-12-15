@@ -41,7 +41,7 @@ Our program aims to be a useful tuturiol for passengers, they can easily check h
 ## Conclusions:
 We have tested average waiting time on weekdays, on Friday, and during Christmas holiday(from Dec.23 to Dec.27), and usually the time range would fall between 300s to 800s, which is between 5 minutes to 12 minutes. On holiday, the time range with usually fall between 600s and 1800s, which is between 10 minutes and 30 minutes. The results quite approves the hypothesis.
 
-# Code Review:
+## Code Review:
 After achieving all the functions as intended at the first stage. We review the comments and check our code with 
 ‘Factors in Code Quality and Code Reviews’. The version control of our project is all down by Github so that we would not have any conflicts. More docstrings have been added and few in-line comments have been modified in the code review phrase. The coverage and the reusability are also been taken into consideration.
 
