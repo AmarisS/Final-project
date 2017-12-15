@@ -6,7 +6,8 @@ import calendar
 import sys
 import matplotlib.pyplot as plt
 
-class CheckQueue():
+
+class CheckQueue:
     def __init__(self):
         """
         create an empty queue
@@ -38,8 +39,7 @@ class CheckQueue():
 
     def number_of_items(self):
         """
-        return the number of items in the queue
-        :return
+        :return：the number of items in the queue
         """
         length = len(self.items)
         return length
@@ -125,12 +125,15 @@ class CheckCounter:
         # record the remaining security check time for current passenger
 
     def is_busy(self):
-        """check whether the check counter has passengers in check or not
+        """
+        check whether the check counter has passengers in check or not
         :return: whether the current checking counter is busy or not """
         return self.current_passenger != None
 
     def load_passenger(self, next_passenger, second):
-        """ load new passenger """
+        """
+        load new passenger
+        """
         self.current_passenger = next_passenger
         self.remaining_time = next_passenger.get_passengers()*self.time_per_passenger
         if len(bus_arrtimes):
@@ -140,7 +143,9 @@ class CheckCounter:
         # re-calculate the new remaining time
 
     def load_holiday_passenger(self, next_passenger, second):
-        """ load new passenger in holiday scenario """
+        """
+        load new passenger in holiday scenario
+        """
         self.current_passenger = next_passenger
         self.remaining_time = next_passenger.get_holidays_passengers() * self.time_per_passenger
         if len(bus_arrtimes):
@@ -149,7 +154,9 @@ class CheckCounter:
                     self.remaining_time += 50 * self.time_per_passenger
 
     def check_passenger(self):
-        """ security check passengers """
+        """
+        security check passengers
+        """
 
         if self.is_busy(): # if there is passengers waiting to be checked
             self.remaining_time -= 1
@@ -231,6 +238,7 @@ def holiday_simulate(total_time:int, time_per_passenger:int)->float:
 
     return total_waittime
 
+
 def getuserdate()-> str:
     """ get the user planned date and time period of arriving the airport, which may or may not include the year.
     :return: return the user input date
@@ -289,10 +297,7 @@ def getuserdate()-> str:
 
 def main():
     time_per_passenger = 30
-    # TBD: 100 is just for
-    # current test
     total_time = 3600
-    # TBD： 1 hour is just for current test
     while True:
         print("****************************")
         input_date = getuserdate()
